@@ -22,9 +22,11 @@ def get_categories():
     return jsonify(result)
 
 @categories_bp.route("/", methods=['POST'])
+@jwt_required()
 def create_category():
     data = request.get_json()
-    user_id = data.get('user_id')
+    # user_id = data.get('user_id')
+    user_id = get_jwt_identity()
     name = data.get('name')
 
     if not name:
@@ -37,6 +39,7 @@ def create_category():
 
     return jsonify({
         "message": "New category created",
+        "user_id from jwt": user_id,
         "user_id": new_category.user_id,
         "name": new_category.name
     })

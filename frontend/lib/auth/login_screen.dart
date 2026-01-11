@@ -142,20 +142,43 @@ class LoginScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignupScreen(),
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              transitionDuration: const Duration(
+                                milliseconds: 400,
+                              ),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const SignupScreen(),
+                              transitionsBuilder:
+                                  (
+                                    context,
+                                    animation,
+                                    secondaryAnimation,
+                                    child,
+                                  ) {
+                                    // Slide from right to left
+                                    const begin = Offset(1.0, 0.0);
+                                    const end = Offset.zero;
+                                    final tween = Tween(begin: begin, end: end)
+                                        .chain(
+                                          CurveTween(curve: Curves.easeInOut),
+                                        );
+                                    final offsetAnimation = animation.drive(
+                                      tween,
+                                    );
+
+                                    return SlideTransition(
+                                      position: offsetAnimation,
+                                      child: child,
+                                    );
+                                  },
                             ),
                           );
                         },
                         child: const Text(
                           'Register here',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
                         ),
                       ),
                     ],

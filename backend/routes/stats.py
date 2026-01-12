@@ -85,7 +85,9 @@ def get_categories_stats():
         ).label("total_expense")
     ).filter(
         Transaction.user_id == user_id,
-        Transaction.transaction_type == "expense"
+        Transaction.transaction_type == "expense",
+        Transaction.transaction_date >= start_date,
+        Transaction.transaction_date <= end_date
     ).join(
         Category, Transaction.category_id == Category.category_id
     ).group_by(
@@ -101,4 +103,40 @@ def get_categories_stats():
                 "expense": r[1]
             }
         )
+    return jsonify(result)
+
+@stats_bp.route("/transaction_history", methods=['GET'])
+# @jwt_required()
+def get_transaction_history():
+    # user_id = get_jwt_identity()
+    user_id = request.args.get("user_id")
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
+
+    history = db.session.query(
+        Category.name.label("category_name"),
+        Transaction.amount.label("amount"),
+        Transaction.transaction_type.label("transaction_type"),
+        Transaction.transaction_date.label("transaction_date"),
+        Transaction.description.label("description")
+    ).filter(
+        Transaction.user_id == user_id,
+        Transaction.transaction_date >= start_date,
+        Transaction.transaction_date <= end_date
+    ).join(
+        Category, Transaction.category_id == Category.category_id
+    ).all()
+
+    result = []
+    for h in history:
+        result.append(
+            {
+                "category_name": h[0],
+                "amount" : h[1],
+                "transaction_type": h[2],
+                "transaction_date": h[3],
+                "description": h[4]
+            }
+        )
+
     return jsonify(result)

@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../models/category_stat.dart';
+import '../../models/category_stat_model.dart';
 
 class ExpensePieChart extends StatelessWidget {
   final List<CategoryStat> categoryStats;

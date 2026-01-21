@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../models/timeline_stat.dart';
+import '../../models/timeline_stat_model.dart';
 
 class IncomeExpenseBarChart extends StatelessWidget {
   final List<TimelineStat> stats;

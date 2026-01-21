@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'models/transaction.dart';
-import 'models/timeline_stat.dart';
-import 'models/category_stat.dart';
+import '../models/transaction_model.dart';
+import '../models/timeline_stat_model.dart';
+import '../models/category_stat_model.dart';
+import '../models/user_details_model.dart';
 import '../services/api_service.dart';
 import 'widgets/balance_card.dart';
 import 'widgets/transaction_tile.dart';
@@ -22,6 +23,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool isLoading = true;
   List<TimelineStat> timelineStats = [];
   List<CategoryStat> categoryStats = [];
+  UserDetails? currentUser;
 
   @override
   void initState() {
@@ -46,7 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         startDate: "2025-12-25",
         endDate: "2026-01-01",
       );
-      print(txs);
+      final userInfo = await ApiService.getCurrentUser(userId: 1);
 
       setState(() {
         totalIncome = double.parse(summary['total_income'].toString());
@@ -55,6 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         isLoading = false;
         timelineStats = timeline;
         categoryStats = categories;
+        currentUser = userInfo;
       });
     } catch (e, stack) {
       debugPrint("Dashboard error: $e");
@@ -80,8 +83,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // HEADER
-                    const Text(
-                      "Hi, Sudip 👋",
+                    Text(
+                      "Welcome, ${currentUser!.firstName} 🙇",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 26,

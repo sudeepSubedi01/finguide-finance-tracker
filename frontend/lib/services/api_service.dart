@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:frontend/models/user_details_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../dashboard/models/transaction.dart';
-import '../dashboard/models/timeline_stat.dart';
-import '../dashboard/models/category_stat.dart';
+import '../models/transaction_model.dart';
+import '../models/timeline_stat_model.dart';
+import '../models/category_stat_model.dart';
 
 class ApiService {
   static const String baseUrl = "http://192.168.1.55:5000";
@@ -79,7 +80,7 @@ class ApiService {
     if (res.statusCode != 200) {
       throw Exception("Failed to load summary");
     }
-    print(res.body);
+    // print(res.body);
     return jsonDecode(res.body);
   }
 
@@ -104,7 +105,7 @@ class ApiService {
     }
 
     final List data = jsonDecode(res.body);
-    print(data);
+    // print(data);
     return data.map((e) => TransactionModel.fromJson(e)).toList();
   }
 
@@ -152,5 +153,21 @@ class ApiService {
 
     final List data = jsonDecode(res.body);
     return data.map((e) => CategoryStat.fromJson(e)).toList();
+  }
+
+  static Future<UserDetails> getCurrentUser({
+    required int userId,
+  }) async {
+    final uri = Uri.parse(
+      "$baseUrl/users/me",
+    ).replace(queryParameters: {"user_id": userId.toString()});
+
+    final res = await http.get(uri);
+
+    if (res.statusCode != 200) {
+      throw Exception("Failed to load category stats");
+    }
+
+    return UserDetails.fromJson(jsonDecode(res.body));
   }
 }

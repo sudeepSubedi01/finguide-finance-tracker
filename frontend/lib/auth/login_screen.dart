@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/home/home_screen.dart';
 import 'signup_screen.dart';
 import '../services/api_service.dart';
-import 'package:frontend/screens/dashboard_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -127,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const DashboardScreen(),
+                              builder: (_) => const HomeScreen(),
                             ),
                           );
                         } else {

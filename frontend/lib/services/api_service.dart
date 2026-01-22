@@ -165,7 +165,6 @@ class ApiService {
     if (res.statusCode != 200) {
       throw Exception("Failed to load category stats");
     }
-
     return UserDetails.fromJson(jsonDecode(res.body));
   }
 

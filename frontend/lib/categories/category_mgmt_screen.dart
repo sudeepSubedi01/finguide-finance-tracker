@@ -51,17 +51,17 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
               child: isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : categories.isEmpty
-                      ? const Center(child: Text("No categories yet"))
-                      : ListView.separated(
-                          padding: const EdgeInsets.only(top: 12),
-                          itemCount: categories.length,
-                          separatorBuilder: (_, __) =>
-                              const Divider(color: Colors.black12),
-                          itemBuilder: (context, index) {
-                            final cat = categories[index];
-                            return _categoryTile(cat);
-                          },
-                        ),
+                  ? const Center(child: Text("No categories yet"))
+                  : ListView.separated(
+                      padding: const EdgeInsets.only(top: 12),
+                      itemCount: categories.length,
+                      separatorBuilder: (_, __) =>
+                          const Divider(color: Colors.black12),
+                      itemBuilder: (context, index) {
+                        final cat = categories[index];
+                        return _categoryTile(cat);
+                      },
+                    ),
             ),
           ),
         ],
@@ -100,7 +100,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
 
   Widget _categoryTile(Map<String, dynamic> category) {
     return ListTile(
-      title: Text(category['name']),
+      title: Text(capitalize(category['name'])),
       trailing: IconButton(
         icon: const Icon(Icons.delete, color: Colors.red),
         onPressed: () => _deleteCategory(category['id']),
@@ -144,10 +144,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
 
   Future<void> _addCategory(String name) async {
     try {
-      await ApiService.createCategory(
-        userId: 1,
-        name: name,
-      );
+      await ApiService.createCategory(userId: 1, name: name);
       _loadCategories();
     } catch (e) {
       debugPrint("Failed to add category: $e");
@@ -161,5 +158,10 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
     } catch (e) {
       debugPrint("Failed to delete category: $e");
     }
+  }
+
+  String capitalize(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
   }
 }

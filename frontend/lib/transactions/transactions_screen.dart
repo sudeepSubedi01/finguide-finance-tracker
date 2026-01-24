@@ -16,7 +16,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
   List<TransactionModel> transactions = [];
   List<TransactionModel> filteredTransactions = [];
 
-  String filter = "All"; // ALL | MONTH
+  String filter = "All";
   DateTime? customStartDate;
   DateTime? customEndDate;
 
@@ -28,10 +28,11 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
 
   Future<void> _loadTransactions() async {
     try {
-      final txs = await ApiService.getTransactions(1); // user_id for now
+      final txs = await ApiService.getTransactions(1);
+      // txs.sort((a, b) => a.date.compareTo(b.date));
       setState(() {
         transactions = txs;
-        filteredTransactions = txs;
+        filteredTransactions = List.from(txs);
         isLoading = false;
       });
     } catch (e) {
@@ -187,7 +188,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
     );
 
     if (added == true) {
-      _loadTransactions(); // refresh list after adding
+      _loadTransactions();
     }
   }
 

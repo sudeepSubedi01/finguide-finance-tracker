@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  currency_icons:
+    dependency: "direct main"
+    description:
+      name: currency_icons
+      sha256: "5ef9e24ec628b672ae28a9fc90a7f24503b18da2d8636d3c763ad9abb83053e2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   curved_navigation_bar:
     dependency: "direct main"
     description:

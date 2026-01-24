@@ -8,17 +8,23 @@ class AiInsightsScreen extends StatefulWidget {
 }
 
 class _AiInsightsScreenState extends State<AiInsightsScreen> {
+  // Controller ini penting agar input bisa dibaca
   final TextEditingController _controller = TextEditingController();
-  List<Map<String, String>> messages = [
-    {"role": "ai", "text": "Halo! Saya asisten FinGuide. Ada yang bisa saya bantu dengan keuanganmu?"}
+  final List<Map<String, String>> _messages = [
+    {"role": "ai", "text": "Hello! I am your FinGuide Assistant. How can I help you with your finances today?"}
   ];
 
   void _sendMessage() {
-    if (_controller.text.isEmpty) return;
+    final text = _controller.text;
+    if (text.isEmpty) return;
+
     setState(() {
-      messages.add({"role": "user", "text": _controller.text});
-      // Simulasi AI sedang berpikir
-      messages.add({"role": "ai", "text": "Berdasarkan data transaksimu, bulan ini kamu paling banyak belanja di kategori 'Makanan'. Coba kurangi jajan ya!"});
+      _messages.add({"role": "user", "text": text});
+      // Mock Response in English
+      _messages.add({
+        "role": "ai", 
+        "text": "Based on your transaction history, you've spent 15% more on groceries this week. Would you like to see a budget plan?"
+      });
     });
     _controller.clear();
   }
@@ -26,24 +32,30 @@ class _AiInsightsScreenState extends State<AiInsightsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('AI Financial Advisor'), backgroundColor: Colors.teal),
+      appBar: AppBar(
+        title: const Text('AI Financial Advisor'),
+        backgroundColor: Colors.teal,
+      ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: messages.length,
+              padding: const EdgeInsets.all(16),
+              itemCount: _messages.length,
               itemBuilder: (context, index) {
-                bool isAi = messages[index]['role'] == 'ai';
-                return ListTile(
-                  title: Align(
-                    alignment: isAi ? Alignment.centerLeft : Alignment.centerRight,
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: isAi ? Colors.grey[200] : Colors.teal[100],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(messages[index]['text']!),
+                bool isAi = _messages[index]['role'] == 'ai';
+                return Align(
+                  alignment: isAi ? Alignment.centerLeft : Alignment.centerRight,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: isAi ? Colors.grey[200] : Colors.teal,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      _messages[index]['text']!,
+                      style: TextStyle(color: isAi ? Colors.black : Colors.white),
                     ),
                   ),
                 );
@@ -51,11 +63,31 @@ class _AiInsightsScreenState extends State<AiInsightsScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12.0),
             child: Row(
               children: [
-                Expanded(child: TextField(controller: _controller, decoration: const InputDecoration(hintText: 'Tanya AI...'))),
-                IconButton(icon: const Icon(Icons.send), onPressed: _sendMessage),
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    autofocus: true, // Memaksa keyboard/fokus aktif
+                    decoration: InputDecoration(
+                      hintText: 'Ask AI anything...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                    ),
+                    onSubmitted: (_) => _sendMessage(), // Bisa kirim pakai tombol Enter
+                  ),
+                ),
+                const SizedBox(width: 8),
+                CircleAvatar(
+                  backgroundColor: Colors.teal,
+                  child: IconButton(
+                    icon: const Icon(Icons.send, color: Colors.white),
+                    onPressed: _sendMessage,
+                  ),
+                ),
               ],
             ),
           ),

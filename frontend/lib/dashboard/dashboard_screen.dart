@@ -19,40 +19,56 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   double totalIncome = 0;
   double totalExpense = 0;
+  double currentMonthIncome = 0;
+  double currentMonthExpense = 0;
   List<TransactionModel> transactions = [];
   bool isLoading = true;
   List<TimelineStat> timelineStats = [];
   List<CategoryStat> categoryStats = [];
   UserDetails? currentUser;
+  late final DateTime startOfMonth;
+  late final DateTime endOfMonth;
 
   @override
   void initState() {
     super.initState();
-    // debugPrint("Dashboard initState called");
+
+    startOfMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+    endOfMonth = DateTime(DateTime.now().year, DateTime.now().month + 1, 0);
+
     _loadDashboardData();
   }
 
   Future<void> _loadDashboardData() async {
-    // debugPrint("_loadDashboardData called");
     try {
+      final startDate = rangeStart(daysBack: 30);
+      final endDate = rangeEnd();
+
       final summary = await ApiService.getSummary(1);
-      // print(summary);
-      final txs = await ApiService.getTransactions(1);
-      final timeline = await ApiService.getTimelineStats(
-        userId: 1,
-        startDate: "2025-12-25",
-        endDate: "2026-01-01",
-      );
       final categories = await ApiService.getCategoryStats(
         userId: 1,
-        startDate: "2025-12-25",
-        endDate: "2026-01-01",
+        startDate: startOfMonth.toIso8601String().split('T')[0],
+        endDate: endOfMonth.toIso8601String().split('T')[0],
       );
+
+      final timeline = await ApiService.getTimelineStats(
+        userId: 1,
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
+      );
+
       final userInfo = await ApiService.getCurrentUser(userId: 1);
+      final txs = await ApiService.getTransactions(1);
 
       setState(() {
         totalIncome = double.parse(summary['total_income'].toString());
         totalExpense = double.parse(summary['total_expense'].toString());
+        currentMonthIncome = double.parse(
+          summary['current_month_income'].toString(),
+        );
+        currentMonthExpense = double.parse(
+          summary['current_month_expense'].toString(),
+        );
         transactions = txs;
         isLoading = false;
         timelineStats = timeline;
@@ -99,13 +115,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                     const SizedBox(height: 24),
 
-                    // BALANCE CARDS
+                    // OVERALL BALANCE CARDS
+                    const Text(
+                      "Overall Income Vs Expense",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
                     Row(
                       children: [
                         Expanded(
                           child: BalanceCard(
                             title: "Income",
-                            amount: "₹ ${totalIncome.toStringAsFixed(0)}",
+                            amount: totalIncome.toStringAsFixed(0),
                             // amount: "50000",
                             icon: Icons.trending_up,
                             color: Colors.white,
@@ -115,9 +142,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Expanded(
                           child: BalanceCard(
                             title: "Expenses",
-                            amount: "₹ ${totalExpense.toStringAsFixed(0)}",
+                            amount: totalExpense.toStringAsFixed(0),
                             icon: Icons.trending_down,
-                            color: Colors.red,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // CURRENT MONTH BALANCE CARDS
+                    const Text(
+                      "Current Month",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: BalanceCard(
+                            title: "Income",
+                            amount: currentMonthIncome.toStringAsFixed(0),
+                            icon: Icons.trending_up,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: BalanceCard(
+                            title: "Expenses",
+                            amount: currentMonthExpense.toStringAsFixed(0),
+                            icon: Icons.trending_down,
+                            color: Colors.redAccent,
                           ),
                         ),
                       ],
@@ -232,4 +295,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+
+  String formatDate(DateTime dt) => dt.toIso8601String().split('T')[0];
+  DateTime rangeStart({int daysBack = 21}) =>
+      DateTime.now().subtract(Duration(days: daysBack));
+  DateTime rangeEnd() => DateTime.now();
 }

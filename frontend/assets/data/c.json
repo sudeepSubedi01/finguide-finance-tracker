@@ -1,0 +1,278 @@
+[
+    {
+        "code": "AED",
+        "name": "UAE Dirham",
+        "country": "United Arab Emirates",
+        "countryCode": "AE"
+    },
+    {
+        "code": "AFN",
+        "name": "Afghan Afghani",
+        "country": "Afghanistan",
+        "countryCode": "AF"
+    },
+    {
+        "code": "AUD",
+        "name": "Australian Dollar",
+        "country": "Australia",
+        "countryCode": "AU"
+    },
+    {
+        "code": "AZN",
+        "name": "Azerbaijani Manat",
+        "country": "Azerbaijan",
+        "countryCode": "AZ"
+    },
+    {
+        "code": "BDT",
+        "name": "Bangladeshi Taka",
+        "country": "Bangladesh",
+        "countryCode": "BD"
+    },
+    {
+        "code": "BHD",
+        "name": "Bahraini Dinar",
+        "country": "Bahrain",
+        "countryCode": "BH"
+    },
+    {
+        "code": "BND",
+        "name": "Brunei Dollar",
+        "country": "Brunei",
+        "countryCode": "BN"
+    },
+    {
+        "code": "BTN",
+        "name": "Bhutanese Ngultrum",
+        "country": "Bhutan",
+        "countryCode": "BT"
+    },
+    {
+        "code": "CNY",
+        "name": "Chinese Yuan",
+        "country": "China",
+        "countryCode": "CN"
+    },
+    {
+        "code": "HKD",
+        "name": "Hong Kong Dollar",
+        "country": "Hong Kong",
+        "countryCode": "HK"
+    },
+    {
+        "code": "IDR",
+        "name": "Indonesian Rupiah",
+        "country": "Indonesia",
+        "countryCode": "ID"
+    },
+    {
+        "code": "ILS",
+        "name": "Israeli New Sheqel",
+        "country": "Israel",
+        "countryCode": "IL"
+    },
+    {
+        "code": "INR",
+        "name": "Indian Rupee",
+        "country": "India",
+        "countryCode": "IN"
+    },
+    {
+        "code": "IQD",
+        "name": "Iraqi Dinar",
+        "country": "Iraq",
+        "countryCode": "IQ"
+    },
+    {
+        "code": "IRR",
+        "name": "Iranian Rial",
+        "country": "Iran",
+        "countryCode": "IR"
+    },
+    {
+        "code": "JPY",
+        "name": "Japanese Yen",
+        "country": "Japan",
+        "countryCode": "JP"
+    },
+    {
+        "code": "KHR",
+        "name": "Cambodian Riel",
+        "country": "Cambodia",
+        "countryCode": "KH"
+    },
+    {
+        "code": "KPW",
+        "name": "North Korean Won",
+        "country": "North Korea",
+        "countryCode": "KP"
+    },
+    {
+        "code": "KRW",
+        "name": "South Korean Won",
+        "country": "South Korea",
+        "countryCode": "KR"
+    },
+    {
+        "code": "KWD",
+        "name": "Kuwaiti Dinar",
+        "country": "Kuwait",
+        "countryCode": "KW"
+    },
+    {
+        "code": "KZT",
+        "name": "Kazakhstani Tenge",
+        "country": "Kazakhstan",
+        "countryCode": "KZ"
+    },
+    {
+        "code": "LAK",
+        "name": "Laotian Kip",
+        "country": "Laos",
+        "countryCode": "LA"
+    },
+    {
+        "code": "LBP",
+        "name": "Lebanese Pound",
+        "country": "Lebanon",
+        "countryCode": "LB"
+    },
+    {
+        "code": "LKR",
+        "name": "Sri Lankan Rupee",
+        "country": "Sri Lanka",
+        "countryCode": "LK"
+    },
+    {
+        "code": "MMK",
+        "name": "Myanmar Kyat",
+        "country": "Myanmar",
+        "countryCode": "MM"
+    },
+    {
+        "code": "MNT",
+        "name": "Mongolian Tugrik",
+        "country": "Mongolia",
+        "countryCode": "MN"
+    },
+    {
+        "code": "MOP",
+        "name": "Macanese Pataca",
+        "country": "Macau",
+        "countryCode": "MO"
+    },
+    {
+        "code": "MVR",
+        "name": "Maldivian Rufiyaa",
+        "country": "Maldives",
+        "countryCode": "MV"
+    },
+    {
+        "code": "MYR",
+        "name": "Malaysian Ringgit",
+        "country": "Malaysia",
+        "countryCode": "MY"
+    },
+    {
+        "code": "NPR",
+        "name": "Nepalese Rupee",
+        "country": "Nepal",
+        "countryCode": "NP"
+    },
+    {
+        "code": "OMR",
+        "name": "Omani Rial",
+        "country": "Oman",
+        "countryCode": "OM"
+    },
+    {
+        "code": "PHP",
+        "name": "Philippine Peso",
+        "country": "Philippines",
+        "countryCode": "PH"
+    },
+    {
+        "code": "PKR",
+        "name": "Pakistani Rupee",
+        "country": "Pakistan",
+        "countryCode": "PK"
+    },
+    {
+        "code": "QAR",
+        "name": "Qatari Rial",
+        "country": "Qatar",
+        "countryCode": "QA"
+    },
+    {
+        "code": "SAR",
+        "name": "Saudi Riyal",
+        "country": "Saudi Arabia",
+        "countryCode": "SA"
+    },
+    {
+        "code": "SGD",
+        "name": "Singapore Dollar",
+        "country": "Singapore",
+        "countryCode": "SG"
+    },
+    {
+        "code": "SYP",
+        "name": "Syrian Pound",
+        "country": "Syria",
+        "countryCode": "SY"
+    },
+    {
+        "code": "THB",
+        "name": "Thai Baht",
+        "country": "Thailand",
+        "countryCode": "TH"
+    },
+    {
+        "code": "TJS",
+        "name": "Tajikistani Somoni",
+        "country": "Tajikistan",
+        "countryCode": "TJ"
+    },
+    {
+        "code": "TMT",
+        "name": "Turkmenistani Manat",
+        "country": "Turkmenistan",
+        "countryCode": "TM"
+    },
+    {
+        "code": "TRY",
+        "name": "Turkish Lira",
+        "country": "Turkey",
+        "countryCode": "TR"
+    },
+    {
+        "code": "TWD",
+        "name": "New Taiwan Dollar",
+        "country": "Taiwan",
+        "countryCode": "TW"
+    },
+    {
+        "code": "USD",
+        "name": "US Dollar",
+        "country": "United States",
+        "countryCode": "US"
+    },
+    {
+        "code": "UZS",
+        "name": "Uzbekistani Som",
+        "country": "Uzbekistan",
+        "countryCode": "UZ"
+    },
+    {
+        "code": "VND",
+        "name": "Vietnamese Đồng",
+        "country": "Vietnam",
+        "countryCode": "VN"
+    },
+    {
+        "code": "YER",
+        "name": "Yemeni Rial",
+        "country": "Yemen",
+        "countryCode": "YE"
+    }
+]

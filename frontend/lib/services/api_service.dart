@@ -41,14 +41,20 @@ class ApiService {
   }
 
   // REGISTER
-  static Future<Map<String, dynamic>> register(
-    String name,
-    String email,
-    String password,
-    String currencyCode,
-  ) async {
-    final res = await http.post(
-      Uri.parse("$baseUrl/users/register"),
+  static Future<Map<String, dynamic>> register({
+    required String name,
+    required String email,
+    required String password,
+    required String currencyCode,
+  }) async {
+    final url = Uri.parse("$baseUrl/users/register");
+    // print("Calling URL: $url");
+    // print(
+    //   "Payload: ${jsonEncode({"name": name, "email": email, "password": password, "currency_code": currencyCode})}",
+    // );
+
+    final response = await http.post(
+      url,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "name": name,
@@ -58,10 +64,19 @@ class ApiService {
       }),
     );
 
-    return {"status": res.statusCode, "body": jsonDecode(res.body)};
+    // print("Status Code: ${response.statusCode}");
+    // print("Body: ${response.body}");
+
+    // Check if status code is OK before decoding
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      // Throw an error so catch block triggers
+      throw Exception("API Error: ${response.statusCode} ${response.body}");
+    }
   }
 
-  // DASHBOARD SUMMARY
+  // ============================================DASHBOARD SUMMARY======================================
   static Future<Map<String, dynamic>> getSummary(int user_id) async {
     // final token = await getToken();
     final uri = Uri.parse(
@@ -84,7 +99,7 @@ class ApiService {
     return jsonDecode(res.body);
   }
 
-  // TRANSACTIONS
+  //======================================== TRANSACTIONS LIST ============================================
   static Future<List<TransactionModel>> getTransactions(int user_id) async {
     // final token = await getToken();
     final uri = Uri.parse(
@@ -108,7 +123,7 @@ class ApiService {
     // print(data);
     return data.map((e) => TransactionModel.fromJson(e)).toList();
   }
-
+  //==================================================TIMLELINE STATS=====================================
   static Future<List<TimelineStat>> getTimelineStats({
     required int userId,
     required String startDate,
@@ -132,6 +147,7 @@ class ApiService {
     return data.map((e) => TimelineStat.fromJson(e)).toList();
   }
 
+  //===================================================CATEGORY STATS======================================
   static Future<List<CategoryStat>> getCategoryStats({
     required int userId,
     required String startDate,
@@ -155,6 +171,7 @@ class ApiService {
     return data.map((e) => CategoryStat.fromJson(e)).toList();
   }
 
+  //====================================================CURRENT USER=======================================
   static Future<UserDetails> getCurrentUser({required int userId}) async {
     final uri = Uri.parse(
       "$baseUrl/users/me",
@@ -243,6 +260,67 @@ class ApiService {
 
     if (res.statusCode != 200) {
       throw Exception("Failed to delete category");
+    }
+  }
+
+  static Future<List<dynamic>> getRuleInsights({
+    required int userId,
+    required String startDate,
+    required String endDate,
+  }) async {
+    final uri = Uri.parse("$baseUrl/analytics/insights").replace(
+      queryParameters: {
+        "user_id": userId.toString(),
+        "start_date": startDate,
+        "end_date": endDate,
+      },
+    );
+
+    final res = await http.get(uri);
+
+    if (res.statusCode != 200) {
+      throw Exception("Failed to load insights");
+    }
+
+    return jsonDecode(res.body);
+  }
+
+  static Future<Map<String, dynamic>> getMonthlyAnalytics({
+    required int userId,
+    required int year,
+    required int month,
+  }) async {
+    final uri = Uri.parse("$baseUrl/analytics/monthly").replace(
+      queryParameters: {
+        "user_id": userId.toString(),
+        "year": year.toString(),
+        "month": month.toString(),
+      },
+    );
+
+    final res = await http.get(uri);
+    if (res.statusCode != 200) {
+      throw Exception("Failed to load analytics");
+    }
+    return jsonDecode(res.body);
+  }
+
+  static Future<Map<String, dynamic>> getAiInsightsWithPreference({
+    required int userId,
+    required String month,
+    required String preference,
+  }) async {
+
+    final response = await http.get(
+      Uri.parse(
+        "$baseUrl/ai/insights?user_id=$userId&month=$month&preference=${Uri.encodeComponent(preference)}",
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to get AI insights");
     }
   }
 }

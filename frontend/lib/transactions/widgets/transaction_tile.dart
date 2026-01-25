@@ -5,7 +5,11 @@ class TransactionTile extends StatelessWidget {
   final TransactionModel transaction;
   final Color textColor;
 
-  const TransactionTile({super.key, required this.transaction, this.textColor = Colors.white});
+  const TransactionTile({
+    super.key,
+    required this.transaction,
+    this.textColor = Colors.white,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +26,11 @@ class TransactionTile extends StatelessWidget {
         ),
       ),
       title: Text(
-        transaction.categoryName,
+        capitalizeFirstWord(transaction.categoryName),
         style: TextStyle(color: textColor),
       ),
       subtitle: Text(
-        transaction.description,
+        capitalizeFirstWord(transaction.description),
         style: TextStyle(color: textColor, fontSize: 12),
       ),
       trailing: Text(
@@ -38,5 +42,17 @@ class TransactionTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String capitalizeFirstWord(String text) {
+    final trimmed = text.trim();
+    if (trimmed.isEmpty) return trimmed;
+
+    final parts = trimmed.split(RegExp(r'\s+'));
+    if (parts.isEmpty) return trimmed;
+
+    parts[0] = parts[0][0].toUpperCase() + parts[0].substring(1);
+
+    return parts.join(' ');
   }
 }

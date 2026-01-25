@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'splash/splash_screen.dart';
 import 'package:frontend/home/home_screen.dart';
-import 'package:frontend/dashboard/dashboard_screen.dart';
-
 void main() {
   runApp(const MyApp());
 }

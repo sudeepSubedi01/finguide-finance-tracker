@@ -3,14 +3,12 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:frontend/models/currency.dart';
 import 'package:frontend/services/api_service.dart';
+import 'login_screen.dart';
 
 Future<List<Currency>> loadCurrencies() async {
-  final jsonString = await rootBundle.loadString("assets/data/currencies.json");
+  final jsonString = await rootBundle.loadString("assets/data/c.json");
   final List<dynamic> data = json.decode(jsonString);
-  // print(data);
-  return data
-      .map((e) => Currency.fromJson(e))
-      .toList(); //returns a list of objects
+  return data.map((e) => Currency.fromJson(e)).toList();
 }
 
 class SignupScreen extends StatefulWidget {
@@ -29,7 +27,7 @@ class _SignupScreenState extends State<SignupScreen> {
     loadCurrencies().then((data) {
       setState(() {
         currencies = data;
-        // print(currencies);
+        selectedCurrency = currencies.first;
       });
     });
   }
@@ -134,6 +132,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                     TextFormField(
                       style: TextStyle(color: Colors.white),
+                      controller: emailController,
                       decoration: InputDecoration(
                         labelText: "Email",
                         labelStyle: TextStyle(color: Colors.white70),
@@ -170,11 +169,12 @@ class _SignupScreenState extends State<SignupScreen> {
                     const SizedBox(height: 16),
 
                     Align(
-                      alignment: Alignment.centerLeft, // keeps it on the left
+                      alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        width: 200, // smaller width
+                        width: 200,
                         child: DropdownButtonFormField<Currency>(
-                          initialValue: selectedCurrency,
+                          // initialValue: selectedCurrency,
+                          value: selectedCurrency,
                           isExpanded: true,
                           style: const TextStyle(color: Colors.white),
                           decoration: InputDecoration(
@@ -350,31 +350,52 @@ class _SignupScreenState extends State<SignupScreen> {
                                   error = "";
                                 });
 
-                                final res = await ApiService.register(
-                                  nameController.text.trim(),
-                                  emailController.text.trim(),
-                                  passwordController.text,
-                                  selectedCurrency!.code,
-                                );
-
-                                setState(() => loading = false);
-
-                                if (res["status"] == 201) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Account created! Please login.",
-                                      ),
-                                    ),
+                                try {
+                                  final res = await ApiService.register(
+                                    name: nameController.text.trim(),
+                                    email: emailController.text.trim(),
+                                    password: passwordController.text,
+                                    currencyCode: selectedCurrency!.code,
                                   );
 
-                                  Navigator.pop(context); // back to login
-                                } else {
+                                  setState(() => loading = false);
+
+                                  if (res["success"] == true) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          "Account created! Please login.",
+                                        ),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+
+                                    await Future.delayed(
+                                      const Duration(seconds: 2),
+                                    );
+
+                                    if (mounted) {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const LoginScreen(),
+                                        ),
+                                      );
+                                    }
+                                  } else {
+                                    setState(() {
+                                      error =
+                                          res["message"] ??
+                                          "Registration failed";
+                                    });
+                                  }
+                                } catch (e) {
                                   setState(() {
+                                    loading = false;
                                     error =
-                                        res["body"]["error"] ??
-                                        "Registration failed";
+                                        "Something went wrong. Please try again.";
                                   });
+                                  print("Signup error: $e");
                                 }
                               },
                         style: ElevatedButton.styleFrom(
@@ -386,15 +407,36 @@ class _SignupScreenState extends State<SignupScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                        child: loading
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Color(0xFF008080),
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                      ),
+                    ),
+
+                    if (error.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          error,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),

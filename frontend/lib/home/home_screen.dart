@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     DashboardScreen(),
     TransactionListScreen(),
     CategoryManagementScreen(),
-    AiInsightsScreen(), 
+    AiInsightsScreen(userId: 1),
     UserProfileScreen(),
   ];
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services.analytics_services import generate_monthly_analytics
-from services.insights_engine import generate_all_insights
+# from services.insights_engine import generate_all_insights
 from datetime import datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -38,5 +38,5 @@ def get_insights():
     except ValueError:
         return jsonify({"error": "Invalid date format. Use YYYY-MM-DD."}), 400
 
-    insights = generate_all_insights(user_id, start_date, end_date)
-    return jsonify({"rule_based_insights": insights})
+    # insights = generate_all_insights(user_id, start_date, end_date)
+    # return jsonify({"rule_based_insights": insights})

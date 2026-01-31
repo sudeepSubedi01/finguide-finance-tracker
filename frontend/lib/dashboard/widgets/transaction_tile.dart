@@ -96,7 +96,7 @@ class TransactionTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "${isExpense ? '-' : '+'}\$${transaction.amount.toStringAsFixed(2)}",
+                "${isExpense ? '-' : '+'}${transaction.amount.toStringAsFixed(2)}",
                 style: TextStyle(
                   color: accentColor,
                   fontWeight: FontWeight.bold,

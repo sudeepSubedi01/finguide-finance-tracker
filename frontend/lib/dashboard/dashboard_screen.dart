@@ -160,7 +160,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               const SizedBox(height: 4),
               Text(
-                currentUser?.firstName ?? "User",
+                "${currentUser?.firstName ?? "User"} (${currentUser?.currencyCode ?? ""})",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 28,

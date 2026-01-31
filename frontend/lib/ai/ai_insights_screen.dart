@@ -217,7 +217,7 @@ class _AiInsightsScreenState extends State<AiInsightsScreen> {
               Expanded(
                 child: _buildTrendItem(
                   "Last Month",
-                  "\$${trend['previous_month_expense']}",
+                  "${trend['previous_month_expense']}",
                   Icons.history_rounded,
                   Colors.blue[300]!,
                 ),
@@ -230,7 +230,7 @@ class _AiInsightsScreenState extends State<AiInsightsScreen> {
               Expanded(
                 child: _buildTrendItem(
                   "This Month",
-                  "\$${trend['current_month_expense']}",
+                  "${trend['current_month_expense']}",
                   Icons.calendar_today_rounded,
                   Colors.green[300]!,
                 ),
@@ -338,7 +338,7 @@ class _AiInsightsScreenState extends State<AiInsightsScreen> {
             Expanded(
               child: _buildInfoCard(
                 "Weekday",
-                "\$${patterns['weekday_expense']}",
+                "${patterns['weekday_expense']}",
                 Icons.work_rounded,
                 const Color(0xFF3B82F6),
               ),
@@ -347,7 +347,7 @@ class _AiInsightsScreenState extends State<AiInsightsScreen> {
             Expanded(
               child: _buildInfoCard(
                 "Weekend",
-                "\$${patterns['weekend_expense']}",
+                "${patterns['weekend_expense']}",
                 Icons.weekend_rounded,
                 const Color(0xFF8B5CF6),
               ),

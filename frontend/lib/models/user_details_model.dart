@@ -2,8 +2,9 @@ class UserDetails {
   final int userId;
   final String name;
   final String email;
+  final String currencyCode;
 
-  UserDetails({required this.userId, required this.name, required this.email});
+  UserDetails({required this.userId, required this.name, required this.email, required this.currencyCode});
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return UserDetails(
@@ -12,6 +13,7 @@ class UserDetails {
           : int.tryParse(json['user_id'].toString()) ?? 0,
       name: json['name']?.toString() ?? '',
       email: json['email']?.toString() ?? '',
+      currencyCode: json['currency_code'] ?? '',
     );
   }
 

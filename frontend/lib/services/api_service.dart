@@ -7,7 +7,7 @@ import '../models/timeline_stat_model.dart';
 import '../models/category_stat_model.dart';
 
 class ApiService {
-  static const String baseUrl = String.fromEnvironment('API_BASE_URL', defaultValue: "http://3.218.94.99:5000");
+  static const String baseUrl = "http://3.218.94.99:5000";
   static const _storage = FlutterSecureStorage();
 
   //=====================================Get token=====================================================
@@ -333,11 +333,16 @@ class ApiService {
     required String month,
     required String preference,
   }) async {
+    final token = await getToken();
     final response = await http.get(
       Uri.parse(
         // "$baseUrl/ai/insights?user_id=$userId&month=$month&preference=${Uri.encodeComponent(preference)}",
         "$baseUrl/ai/insights?preference=${Uri.encodeComponent(preference)}",
       ),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer $token",
+      },
     );
 
     if (response.statusCode == 200) {
